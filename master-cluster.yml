@@ -9,7 +9,7 @@
 
     - name: create .kube directory
       become: yes
-      become_user: ubuntu
+      become_user: healthcheck
       file:
         path: $HOME/.kube
         state: directory
@@ -18,13 +18,13 @@
     - name: copy admin.conf to user's kube config
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/ubuntu/.kube/config
+        dest: /home/healthcheck/.kube/config
         remote_src: yes
-        owner: ubuntu
+        owner: healthcheck
 
     - name: install Pod network
       become: yes
-      become_user: ubuntu
+      become_user: healthcheck
       shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_seltup.txt
       args:
         chdir: $HOME
